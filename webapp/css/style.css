@@ -1,0 +1,11 @@
+.tableItems th {
+    background-color: deepskyblue;
+}
+
+.tableItems tr:first-child td {
+    background-color: lightgreen;
+}
+
+.smalltext {
+    font-size: 0.7rem !important;
+}

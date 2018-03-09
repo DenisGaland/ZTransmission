@@ -1,0 +1,66 @@
+<edmx:Edmx
+    xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+    xmlns:sap="http://www.sap.com/Protocols/SAPData" Version="1.0">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema
+            xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="ZTRANSMISSIONLIST_SRV" xml:lang="en" sap:schema-version="1">
+            <EntityType Name="storelist" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Listid"/>
+                    <PropertyRef Name="Ean"/>
+                </Key>
+                <Property Name="Listid" Type="Edm.Int32" Nullable="false" sap:label="Integer" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ean" Type="Edm.String" Nullable="false" MaxLength="18" sap:label="GTIN" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Umrez" Type="Edm.Decimal" Nullable="false" Precision="5" Scale="0" sap:label="Numerator" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="Listcheck" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="ListId"/>
+                    <PropertyRef Name="Ean"/>
+                </Key>
+                <Property Name="ListId" Type="Edm.Int32" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ZComment" Type="Edm.String" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ean" Type="Edm.String" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Message" Type="Edm.String" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="ListToItemsNav" Relationship="ZTRANSMISSIONLIST_SRV.ListToItemsAss" FromRole="FromRole_ListToItemsAss" ToRole="ToRole_ListToItemsAss"/>
+            </EntityType>
+            <EntityType Name="SaveList" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="ListId"/>
+                    <PropertyRef Name="ZComment"/>
+                </Key>
+                <Property Name="ListId" Type="Edm.Int32" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ZComment" Type="Edm.String" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Mesage" Type="Edm.String" Nullable="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <Association Name="ListToItemsAss" sap:content-version="1">
+                <End Type="ZTRANSMISSIONLIST_SRV.Listcheck" Multiplicity="0..1" Role="FromRole_ListToItemsAss"/>
+                <End Type="ZTRANSMISSIONLIST_SRV.storelist" Multiplicity="*" Role="ToRole_ListToItemsAss"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_ListToItemsAss">
+                        <PropertyRef Name="Ean"/>
+                        <PropertyRef Name="ListId"/>
+                    </Principal>
+                    <Dependent Role="ToRole_ListToItemsAss">
+                        <PropertyRef Name="Ean"/>
+                        <PropertyRef Name="Listid"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <EntityContainer Name="ZTRANSMISSIONLIST_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="storelistSet" EntityType="ZTRANSMISSIONLIST_SRV.storelist" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="ListcheckSet" EntityType="ZTRANSMISSIONLIST_SRV.Listcheck" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="SaveListSet" EntityType="ZTRANSMISSIONLIST_SRV.SaveList" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <AssociationSet Name="ListToItemsAssSet" Association="ZTRANSMISSIONLIST_SRV.ListToItemsAss" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="ListcheckSet" Role="FromRole_ListToItemsAss"/>
+                    <End EntitySet="storelistSet" Role="ToRole_ListToItemsAss"/>
+                </AssociationSet>
+            </EntityContainer>
+            <atom:link
+                xmlns:atom="http://www.w3.org/2005/Atom" rel="self" href="./sap/ZTRANSMISSIONLIST_SRV/$metadata"/>
+                <atom:link
+                    xmlns:atom="http://www.w3.org/2005/Atom" rel="latest-version" href="./sap/ZTRANSMISSIONLIST_SRV/$metadata"/>
+                </Schema>
+            </edmx:DataServices>
+        </edmx:Edmx>
